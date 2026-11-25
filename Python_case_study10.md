@@ -32,47 +32,122 @@ To develop a Python program that simulates passenger boarding and alighting at m
 
 ## **4. Flowchart**
 
-**START**
+## CASE STUDY 51: BUS PASSENGER OCCUPANCY SIMULATION
 
-**Input max_cap and n**
+### Flowchart – Box Model Format
 
-**Read stop details and store as tuples**
+text
 
-**Initialize current = 0, peak = 0, violations = 0**
+```text
+              ┌───────────────┐
+              │     START     │
+              └───────┬───────┘
+                      │
+                      ▼
+          ╱────────────────────────╲
+         ╱  Input max_cap and n     ╲
+         ╲                          ╱
+          ╲───────────┬────────────╱
+                      │
+                      ▼
+          ┌────────────────────────┐
+          │ Initialize stops_data │
+          │        = []            │
+          └───────────┬────────────┘
+                      │
+                      ▼
+          ┌────────────────────────┐
+          │ Input stop name,       │
+          │ boarded and alighted   │
+          └───────────┬────────────┘
+                      │
+                      ▼
+          ┌────────────────────────┐
+          │ Store details as       │
+          │ (name, boarded,        │
+          │ alighted) tuple        │
+          └───────────┬────────────┘
+                      │
+                      ▼
+          ┌────────────────────────┐
+          │ Initialize current=0,  │
+          │ peak=0, violations=0   │
+          └───────────┬────────────┘
+                      │
+                      ▼
+                ╱──────────────╲
+               ╱  Process next  ╲
+               ╲   stop tuple   ╱
+                ╲──────┬───────╱
+                       │
+                       ▼
+                ◇────────────────◇
+               ╱ Is alighted >    ╲
+               ╲ current?         ╱
+                ◇──────┬─────────◇
+                   YES │     NO
+                       │       │
+                       ▼       │
+             ┌────────────────┐│
+             │ Adjust alighted││
+             │ = current      ││
+             └───────┬────────┘│
+                     │         │
+                     └────┬────┘
+                          │
+                          ▼
+          ┌────────────────────────┐
+          │ current = current      │
+          │ - alighted + boarded   │
+          └───────────┬────────────┘
+                      │
+                      ▼
+                ◇────────────────◇
+               ╱ Is current >     ╲
+               ╲ max_cap?         ╱
+                ◇──────┬─────────◇
+                   YES │     NO
+                       │       │
+                       ▼       ▼
+          ┌────────────────┐ ┌────────────────┐
+          │ Display        │ │ Display        │
+          │ OVERLOAD       │ │ WITHIN LIMIT   │
+          │ violations += 1│ └───────┬────────┘
+          └───────┬────────┘         │
+                  │                  │
+                  └────────┬─────────┘
+                           │
+                           ▼
+          ┌────────────────────────┐
+          │ Update peak occupancy  │
+          │ and peak stop          │
+          └───────────┬────────────┘
+                      │
+                      ▼
+                ◇────────────────◇
+               ╱ Are all stops    ╲
+               ╲ processed?       ╱
+                ◇──────┬─────────◇
+                   NO  │     YES
+                       │       │
+                       │       ▼
+                       │  ┌─────────────────────┐
+                       │  │ Print peak          │
+                       │  │ occupancy, peak    │
+                       │  │ stop and violations│
+                       │  └──────────┬──────────┘
+                       │             │
+                       │             ▼
+                       │      ┌───────────────┐
+                       │      │     STOP      │
+                       │      └───────────────┘
+                       │
+                       └──────► Process
+                                next stop
+```
 
-**Process next stop tuple**
 
-**Is alighted greater than current?**
 
-YES
-
-Adjust alighted = current
-
-NO
-
-Keep alighted count
-
-**current = current − alighted + boarded**
-
-**Is current greater than max_cap?**
-
-YES
-
-Display OVERLOAD and increase violations
-
-NO
-
-Display WITHIN LIMIT
-
-**Update peak occupancy and peak stop**
-
-**Are all stops processed?**
-
-NO → Process next stop
-
-**Print peak occupancy and violation summary**
-
-**STOP**
 
 ## **5. Pseudocode**
 
