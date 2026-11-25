@@ -18,7 +18,7 @@
 
 | Field | Details |
 |---|---|
-| Name | bharani karini |
+| Name | KARINI BHARANI |
 | Roll Number | 26000588 |
 | Branch | CSE / AI&ML |
 | Section | 3 |
