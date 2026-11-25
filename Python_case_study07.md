@@ -1,165 +1,413 @@
 # Case Study 42: Student Marks Matrix Analysis
 
+---
+
 ## 1. Problem Statement
-Analyse a 2D matrix of student marks across multiple subjects stored as a nested list, calculate row-wise (student) totals and averages, compute column-wise (subject) averages, identify top performers, and detect subjects with low average performance.
+
+The Student Marks Matrix Analysis program analyses student academic performance across multiple subjects using a two-dimensional matrix represented by nested lists in Python.
+
+It calculates individual student totals and averages, identifies the top-performing student, computes subject-wise class averages, and highlights subjects whose average marks are below the specified threshold of 60%.
+
+---
 
 ## 2. Objectives
+
 - To represent tabular academic data using nested lists.
-- To compute row-wise totals/averages and identify the highest-scoring student.
-- To compute column-wise subject averages and flag subjects falling below a target threshold.
+- To perform row-wise calculations for student totals and averages.
+- To identify the highest-scoring student.
+- To perform column-wise calculations for subject averages.
+- To detect subjects with averages below 60%.
+- To display student-wise and subject-wise performance reports.
+- To practise nested loops and two-dimensional list traversal.
+
+---
 
 ## 3. Assumptions
-- Each mark is between 0 and 100.
-- Row indices correspond to students, and column indices correspond to subjects.
-- A subject with a class average below 60.0 is flagged as low-performing.
+
+| S.No. | Parameter | Assumption |
+|---|---|---|
+| 1 | Marks Range | 0 to 100 |
+| 2 | Data Structure | Two-dimensional nested list |
+| 3 | Rows | Represent individual students |
+| 4 | Columns | Represent individual subjects |
+| 5 | Student Total | Sum of marks across all subjects |
+| 6 | Student Average | Total marks divided by number of subjects |
+| 7 | Subject Average | Sum of subject marks divided by number of students |
+| 8 | Low Performance Threshold | Subject average below 60.0% |
+| 9 | Top Performer | Student with the highest total marks |
+
+---
 
 ## 4. Algorithm
+
 1. Start the program.
-2. Input number of students num_students and number of subjects num_subjects.
-3. Input subject names into a list subjects.
-4. Initialize empty lists student_names and marks_matrix.
-5. For each student i: input name and a list of marks across all subjects, appending the row to marks_matrix.
-6. Traverse rows to calculate each student's total and average, tracking the maximum total to identify the top performer.
-7. Traverse columns (j from 0 to num_subjects - 1) to sum marks across all students, compute subject averages, and flag subjects with average < 60.0.
-8. Display student report, top performer, and subject-wise analysis.
-9. Stop the program.
+2. Input the number of students and number of subjects.
+3. Create an empty list named `subjects`.
+4. Input all subject names and store them in the list.
+5. Initialize empty lists named `student_names` and `marks_matrix`.
+6. For each student:
+   - Input the student's name.
+   - Create an empty row list.
+   - Input marks for each subject.
+   - Validate that every mark is between 0 and 100.
+   - Append each mark to the row.
+   - Append the completed row to `marks_matrix`.
+7. Initialize `top_total = -1` and `top_student = ""`.
+8. Traverse each row of the marks matrix:
+   - Calculate the student's total marks.
+   - Calculate the student's average.
+   - Display the student-wise performance.
+   - Compare the total with `top_total`.
+   - Update the top performer when a higher total is found.
+9. Traverse each column of the marks matrix:
+   - Calculate the total marks obtained in that subject.
+   - Calculate the subject average.
+   - If the average is below 60%, flag the subject as low-performing.
+   - Otherwise, mark the subject as satisfactory.
+10. Display the top-performing student.
+11. Display the subject-wise performance report.
+12. Stop the program.
+
+---
 
 ## 5. Flowchart
-```text
-       [ Start ]
-           |
-           v
-/ Input num_students, num_subjects /
-           |
-           v
-[ Populate nested list marks_matrix ]
-           |
-           v
-[ Row Loop: Compute student totals, averages & topper ]
-           |
-           v
-[ Column Loop: Compute subject averages & flag < 60 ]
-           |
-           v
- / Print Matrix Analysis Report /
-           |
-           v
-        [ End ]
+
+```text id="c42flow"
+              +----------------------+
+              |        START         |
+              +----------------------+
+                         |
+                         v
+              +----------------------+
+              | Input Number of      |
+              | Students & Subjects  |
+              +----------------------+
+                         |
+                         v
+              +----------------------+
+              | Input Subject Names  |
+              +----------------------+
+                         |
+                         v
+              +----------------------+
+              | Input Student Names  |
+              | and Subject Marks    |
+              +----------------------+
+                         |
+                         v
+              +----------------------+
+              | Store Marks in       |
+              | Nested List Matrix   |
+              +----------------------+
+                         |
+                         v
+              +----------------------+
+              | Row-wise Traversal   |
+              | Calculate Student    |
+              | Totals & Averages    |
+              +----------------------+
+                         |
+                         v
+              +----------------------+
+              | Identify Top         |
+              | Performing Student   |
+              +----------------------+
+                         |
+                         v
+              +----------------------+
+              | Column-wise          |
+              | Traversal            |
+              +----------------------+
+                         |
+                         v
+              +----------------------+
+              | Calculate Subject    |
+              | Class Averages       |
+              +----------------------+
+                         |
+                         v
+                  +---------------+
+                  | Average < 60?  |
+                  +---------------+
+                    /          \
+                  Yes           No
+                   |             |
+                   v             v
+          +----------------+  +----------------+
+          | Flag as Low    |  | Mark as        |
+          | Performing     |  | Satisfactory   |
+          +----------------+  +----------------+
+                   \             /
+                    \           /
+                     v         v
+              +----------------------+
+              | Display Complete     |
+              | Matrix Analysis      |
+              | Report               |
+              +----------------------+
+                         |
+                         v
+              +----------------------+
+              |         END          |
+              +----------------------+
 ```
 
-## 6. Pseudocode
-```text
-BEGIN
-    READ num_students, num_subjects
-    READ subjects[0..num_subjects-1]
-    SET marks_matrix = []
-    SET names = []
+---
 
-    FOR i FROM 0 TO num_students - 1 DO
-        READ student_name
-        APPEND student_name TO names
-        SET row = []
-        FOR j FROM 0 TO num_subjects - 1 DO
-            READ mark
-            APPEND mark TO row
-        ENDFOR
-        APPEND row TO marks_matrix
+## 6. Pseudocode
+
+```text id="c42pseudo"
+BEGIN
+
+    READ num_students, num_subjects
+
+    SET subjects = []
+    SET student_names = []
+    SET marks_matrix = []
+
+    FOR j FROM 0 TO num_subjects - 1 DO
+
+        READ subject_name
+        APPEND subject_name TO subjects
+
     ENDFOR
 
-    SET max_total = -1
-    SET topper = ""
     FOR i FROM 0 TO num_students - 1 DO
+
+        READ student_name
+        APPEND student_name TO student_names
+
+        SET row = []
+
+        FOR j FROM 0 TO num_subjects - 1 DO
+
+            READ mark
+
+            WHILE mark < 0 OR mark > 100 DO
+                PRINT "Invalid marks"
+                READ mark
+            ENDWHILE
+
+            APPEND mark TO row
+
+        ENDFOR
+
+        APPEND row TO marks_matrix
+
+    ENDFOR
+
+    SET top_total = -1
+    SET top_student = ""
+
+    FOR i FROM 0 TO num_students - 1 DO
+
         SET row_sum = 0
+
         FOR j FROM 0 TO num_subjects - 1 DO
             SET row_sum = row_sum + marks_matrix[i][j]
         ENDFOR
-        PRINT names[i], row_sum, row_sum / num_subjects
-        IF row_sum > max_total THEN
-            SET max_total = row_sum
-            SET topper = names[i]
+
+        SET average = row_sum / num_subjects
+
+        PRINT student_names[i], row_sum, average
+
+        IF row_sum > top_total THEN
+
+            SET top_total = row_sum
+            SET top_student = student_names[i]
+
         ENDIF
+
     ENDFOR
 
+    PRINT top_student, top_total
+
     FOR j FROM 0 TO num_subjects - 1 DO
+
         SET col_sum = 0
+
         FOR i FROM 0 TO num_students - 1 DO
             SET col_sum = col_sum + marks_matrix[i][j]
         ENDFOR
+
         SET sub_avg = col_sum / num_students
-        PRINT subjects[j], sub_avg
+
         IF sub_avg < 60.0 THEN
-            PRINT "Low Performance Alert:", subjects[j]
+            PRINT "LOW PERFORMANCE ALERT:", subjects[j]
+        ELSE
+            PRINT "SATISFACTORY:", subjects[j]
         ENDIF
+
     ENDFOR
+
 END
 ```
 
+---
+
 ## 7. Python Source Code
-```python
+
+```python id="c42python"
 # Case Study 42: Student Marks Matrix Analysis
 
+# 1. Input number of students and subjects
 num_students = int(input("Enter number of students: "))
 num_subjects = int(input("Enter number of subjects: "))
 
+# 2. Input subject names
 subjects = []
+
 for j in range(num_subjects):
-    sub_name = input(f"Enter name of Subject {j + 1}: ").strip()
+    sub_name = input(
+        f"Enter name of Subject {j + 1}: "
+    ).strip()
+
     subjects.append(sub_name)
 
+# 3. Initialize student data lists
 student_names = []
 marks_matrix = []
 
+# 4. Input student names and marks
 for i in range(num_students):
-    name = input(f"\nEnter name of Student {i + 1}: ").strip()
+
+    name = input(
+        f"\nEnter name of Student {i + 1}: "
+    ).strip()
+
     student_names.append(name)
+
     row = []
+
     for j in range(num_subjects):
-        mark = float(input(f"  Enter marks in {subjects[j]} (0-100): "))
+
+        mark = float(
+            input(
+                f"  Enter marks in {subjects[j]} (0-100): "
+            )
+        )
+
+        # Validate marks
         while mark < 0 or mark > 100:
-            print("  Invalid marks! Enter a value between 0 and 100.")
-            mark = float(input(f"  Re-enter marks in {subjects[j]}: "))
+
+            print(
+                "  Invalid marks! Enter a value between 0 and 100."
+            )
+
+            mark = float(
+                input(
+                    f"  Re-enter marks in {subjects[j]}: "
+                )
+            )
+
         row.append(mark)
+
     marks_matrix.append(row)
 
-print("
-================ STUDENT-WISE PERFORMANCE ================")
+# 5. Student-wise performance analysis
+print("\n================ STUDENT-WISE PERFORMANCE ================")
+
 top_total = -1.0
 top_student = ""
 
 for i in range(num_students):
+
     total = 0.0
+
+    # Calculate student total
     for j in range(num_subjects):
         total += marks_matrix[i][j]
+
+    # Calculate student average
     avg = total / num_subjects
-    print(f"{student_names[i]:<15} | Total: {total:>6.1f} | Average: {avg:>6.2f}%")
+
+    print(
+        f"{student_names[i]:<15} | "
+        f"Total: {total:>6.1f} | "
+        f"Average: {avg:>6.2f}%"
+    )
+
+    # Identify top performer
     if total > top_total:
+
         top_total = total
         top_student = student_names[i]
 
-print("----------------------------------------------------------")
-print(f"Top Performer: {top_student} (Total Marks: {top_total:.1f})")
+# 6. Display top performer
+print("-" * 58)
 
-print("
-================ SUBJECT-WISE PERFORMANCE ================")
+print(
+    f"Top Performer: {top_student} "
+    f"(Total Marks: {top_total:.1f})"
+)
+
+# 7. Subject-wise performance analysis
+print("\n================ SUBJECT-WISE PERFORMANCE ================")
+
 for j in range(num_subjects):
+
     col_sum = 0.0
+
+    # Calculate subject total across students
     for i in range(num_students):
         col_sum += marks_matrix[i][j]
+
+    # Calculate subject average
     sub_avg = col_sum / num_students
-    status = "LOW AVERAGE (<60%)" if sub_avg < 60.0 else "SATISFACTORY"
-    print(f"{subjects[j]:<15} | Class Avg: {sub_avg:>6.2f}% | Status: {status}")
-print("==========================================================")
+
+    # Check performance status
+    if sub_avg < 60.0:
+        status = "LOW AVERAGE (<60%)"
+    else:
+        status = "SATISFACTORY"
+
+    print(
+        f"{subjects[j]:<15} | "
+        f"Class Avg: {sub_avg:>6.2f}% | "
+        f"Status: {status}"
+    )
+
+print("=" * 58)
 ```
 
+---
+
 ## 8. Test Cases
-- **Input:** 3 Students (`Ananya`, `Vikram`, `Meera`), 3 Subjects (`Math`, `Physics`, `Python`).
-  - `Ananya`: `[85, 78, 92]` -> Total 255, Avg 85.00% (Top Performer)
-  - `Vikram`: `[62, 48, 70]` -> Total 180, Avg 60.00%
-  - `Meera`: `[74, 52, 81]` -> Total 207, Avg 69.00%
-- **Subject Averages:** `Math`: 73.67%, `Physics`: 59.33% (**LOW AVERAGE**), `Python`: 81.00%.
+
+**Input Details:**
+
+- Number of Students: 3
+- Number of Subjects: 3
+- Subjects: Math, Physics, Python
+
+### Student-wise Test Data
+
+| Student Name | Math | Physics | Python | Total | Average |
+|---|---:|---:|---:|---:|---:|
+| Ananya | 85 | 78 | 92 | 255 | 85.00% |
+| Vikram | 62 | 48 | 70 | 180 | 60.00% |
+| Meera | 74 | 52 | 81 | 207 | 69.00% |
+
+### Subject-wise Test Data
+
+| Subject | Total Marks | Class Average | Performance |
+|---|---:|---:|---|
+| Math | 221 | 73.67% | Satisfactory |
+| Physics | 178 | 59.33% | Low Performance |
+| Python | 243 | 81.00% | Satisfactory |
+
+### Expected Results
+
+- **Top Performer:** Ananya
+- **Highest Total:** 255 marks
+- **Low-performing Subject:** Physics
+- **Physics Class Average:** 59.33%
+
+---
 
 ## 9. Sample Output
-```text
+
+```text id="c42output"
 Enter number of students: 3
 Enter number of subjects: 3
 Enter name of Subject 1: Math
@@ -195,5 +443,12 @@ Python          | Class Avg:  81.00% | Status: SATISFACTORY
 ==========================================================
 ```
 
+---
+
 ## 10. Conclusion
-Nested list traversal enables structured row-wise and column-wise aggregation, making it straightforward to identify top-performing students and underperforming subjects.
+
+The Student Marks Matrix Analysis program demonstrates how nested lists can be used to store and process structured academic data in Python.
+
+By using row-wise and column-wise traversal, the program calculates student totals, student averages, and subject averages. It also identifies the top-performing student and detects subjects with low class averages.
+
+This case study develops practical knowledge of two-dimensional lists, nested loops, conditional statements, aggregation, and structured data analysis in Python.
