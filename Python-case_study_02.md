@@ -1,112 +1,235 @@
-# Case Study 13: ATM Transaction Sequence Simulation
+Here is **Case Study 13: ATM Transaction Sequence Simulation** in the same GitHub README box-style format, with all 10 sections.
 
-## 1. Problem Statement
-Develop a Python program that simulates a sequence of ATM deposits and withdrawals on a bank account. The system must track the account balance, enforce per-transaction and daily withdrawal limits, reject invalid transactions (such as overdrafts or non-multiples of Rs. 100), and generate a final transaction summary.
+# CASE STUDY 13: ATM TRANSACTION SEQUENCE SIMULATION
 
-## 2. Objectives
-- To process a batch of deposit and withdrawal requests iteratively.
-- To enforce banking constraints including minimum balance, denomination multiples, and daily withdrawal limits.
-- To log accepted and rejected transactions in lists and display a complete audit summary.
+---
 
-## 3. Assumptions
-- Initial account balance is Rs. 10,000.
-- Minimum required balance to maintain in the account is Rs. 1,000.
-- Maximum single withdrawal limit is Rs. 10,000, and total daily withdrawal limit is Rs. 25,000.
-- All deposit and withdrawal amounts must be positive multiples of Rs. 100.
-- Transaction types are entered as 'D' (Deposit) or 'W' (Withdrawal).
+## 1. PROBLEM STATEMENT
 
-## 4. Algorithm
+Develop a Python program that simulates a sequence of ATM deposits and withdrawals on a bank account. The system tracks account balance, enforces per-transaction and daily withdrawal limits, rejects invalid transactions such as overdrafts or non-multiples of Rs. 100, and generates a final transaction summary.
+
+---
+
+## 2. OBJECTIVES
+
+- Process multiple deposit and withdrawal requests using loops.
+- Enforce minimum balance requirements.
+- Apply single and daily withdrawal limits.
+- Validate transaction amounts and denominations.
+- Store accepted and rejected transactions in a list.
+- Generate a complete transaction audit summary.
+
+---
+
+## 3. ASSUMPTIONS
+
+| Description                | Value                |
+| -------------------------- | -------------------- |
+| Initial Balance            | Rs. 10,000           |
+| Minimum Balance            | Rs. 1,000            |
+| Single Withdrawal Limit    | Rs. 10,000           |
+| Daily Withdrawal Limit     | Rs. 25,000           |
+| Minimum Transaction Amount | Rs. 100              |
+| Valid Denomination         | Multiples of Rs. 100 |
+| Deposit Type               | D                    |
+| Withdrawal Type            | W                    |
+
+---
+
+## 4. ALGORITHM
+
 1. Start the program.
-2. Initialize balance = 10000, daily_withdrawn = 0, total_deposited = 0, and an empty list logs.
-3. Input the number of transactions n.
-4. For each transaction i from 1 to n: input transaction type t_type and amount.
-5. Check if amount <= 0 or amount % 100 != 0; if so, reject for invalid denomination.
-6. If t_type is 'D', add amount to balance and total_deposited, and record in logs.
-7. If t_type is 'W', validate against single limit (10000), daily limit (25000), and minimum balance (1000). If valid, deduct from balance and update daily_withdrawn; else reject with reason.
-8. Display all logged transactions, total deposits, total withdrawals, and closing balance.
+2. Initialize account balance to Rs. 10,000.
+3. Initialize daily withdrawal and total deposit amounts to zero.
+4. Create an empty transaction log list.
+5. Input the number of transactions.
+6. Repeat for each transaction:
+   - Input transaction type (D/W).
+   - Input transaction amount.
+   - Check whether the amount is positive and a multiple of Rs. 100.
+   - If the type is D, deposit the amount and update the balance.
+   - If the type is W, check the single withdrawal limit.
+   - Check the daily withdrawal limit.
+   - Check the minimum balance requirement.
+   - Accept or reject the transaction with an appropriate reason.
+   - Store the transaction result in the log.
+7. Display all transaction records.
+8. Display total deposits, total withdrawals, and closing balance.
 9. Stop the program.
 
-## 5. Flowchart
-```text
-        [ Start ]
-            |
-            v
-[ balance = 10000, daily_withdrawn = 0 ]
-            |
-            v
-   / Input n transactions /
-            |
-            v
-    < Loop i = 1 to n > ---- No ----> [ Print Summary & Final Balance ]
-            |                                         |
-           Yes                                        v
-            |                                      [ End ]
-            v
- / Input type (D/W) & amount /
-            |
-            v
- < amount > 0 and % 100 == 0 ? > -- No --> [ Log REJECTED ] --+
-            |                                                 |
-           Yes                                                |
-            |                                                 |
-            v                                                 |
-    < type == 'D' ? > -- Yes --> [ balance += amount, Log ] --+
-            |                                                 |
-            No                                                |
-            |                                                 |
-            v                                                 |
- < Valid Withdrawal Limits & Min Bal? > - Yes -> [ balance -= amount, Log ]
-            |                                                 |
-            No --> [ Log REJECTED ] --------------------------+
-                                                              |
-            +-------------------------------------------------+
-            |
-            +------> (Next Iteration i + 1)
+---
+
+## 5. FLOWCHART
+
+```
+             +----------------+
+             |     START      |
+             +----------------+
+                     |
+                     v
+       +----------------------------+
+       | Initialize Balance = 10000 |
+       | Daily Withdrawn = 0        |
+       | Total Deposited = 0        |
+       | Logs = []                  |
+       +----------------------------+
+                     |
+                     v
+       +----------------------------+
+       | Input Number of            |
+       | Transactions (n)           |
+       +----------------------------+
+                     |
+                     v
+             +---------------+
+             | More          |
+             | Transactions?|
+             +---------------+
+                |        |
+               Yes       No
+                |        |
+                v        v
+       +----------------+  +------------------+
+       | Input Type and |  | Display Final    |
+       | Amount         |  | Transaction      |
+       +----------------+  | Summary          |
+                |          +------------------+
+                v                   |
+       +-------------------+        v
+       | Amount > 0 and    |      +-------+
+       | Amount % 100 = 0? |      |  END  |
+       +-------------------+      +-------+
+           |          |
+          No         Yes
+           |          |
+           v          v
+       +---------+  +-------------+
+       | Reject  |  | Type = D ?  |
+       | Invalid |  +-------------+
+       | Amount  |     |       |
+       +---------+    Yes      No
+           |           |       |
+           |           v       v
+           |    +----------+  +----------------+
+           |    | Deposit  |  | Type = W ?     |
+           |    | Update   |  +----------------+
+           |    | Balance  |      |       |
+           |    +----------+     Yes      No
+           |         |             |       |
+           |         |             v       v
+           |         |     +------------+ +---------+
+           |         |     | Check      | | Reject  |
+           |         |     | Withdrawal | | Unknown |
+           |         |     | Limits     | | Type    |
+           |         |     +------------+ +---------+
+           |         |             |
+           |         |             v
+           |         |     +----------------+
+           |         |     | All Limits    |
+           |         |     | Satisfied?     |
+           |         |     +----------------+
+           |         |       |         |
+           |         |      Yes        No
+           |         |       |         |
+           |         |       v         v
+           |         |   +---------+ +---------+
+           |         |   | Accept  | | Reject  |
+           |         |   | Withdraw| | With    |
+           |         |   | Update  | | Reason  |
+           |         |   | Balance | |         |
+           |         |   +---------+ +---------+
+           |         |       |         |
+           +---------+-------+---------+
+                     |
+                     v
+             +----------------+
+             | Store Result   |
+             | in Logs        |
+             +----------------+
+                     |
+                     +------> Next Transaction
 ```
 
-## 6. Pseudocode
-```text
+---
+
+## 6. PSEUDOCODE
+
+```
 BEGIN
+
     SET balance = 10000
+    SET min_balance = 1000
+    SET single_limit = 10000
+    SET daily_limit = 25000
+
     SET daily_withdrawn = 0
     SET total_deposited = 0
     SET logs = []
 
     READ n
+
     FOR i FROM 1 TO n DO
+
         READ t_type, amount
+
         IF amount <= 0 OR amount MOD 100 != 0 THEN
-            APPEND "Txn " + i + ": REJECTED - Invalid amount" TO logs
+
+            APPEND "REJECTED - Invalid amount" TO logs
+
         ELSE IF t_type == "D" THEN
-            SET balance = balance + amount
-            SET total_deposited = total_deposited + amount
-            APPEND "Txn " + i + ": ACCEPTED - Deposit Rs. " + amount TO logs
+
+            balance = balance + amount
+            total_deposited = total_deposited + amount
+
+            APPEND "ACCEPTED - Deposit" TO logs
+
         ELSE IF t_type == "W" THEN
-            IF amount > 10000 THEN
-                APPEND "Txn " + i + ": REJECTED - Single limit exceeded" TO logs
-            ELSE IF daily_withdrawn + amount > 25000 THEN
-                APPEND "Txn " + i + ": REJECTED - Daily limit exceeded" TO logs
-            ELSE IF balance - amount < 1000 THEN
-                APPEND "Txn " + i + ": REJECTED - Minimum balance violation" TO logs
+
+            IF amount > single_limit THEN
+
+                APPEND "REJECTED - Single limit exceeded" TO logs
+
+            ELSE IF daily_withdrawn + amount > daily_limit THEN
+
+                APPEND "REJECTED - Daily limit exceeded" TO logs
+
+            ELSE IF balance - amount < min_balance THEN
+
+                APPEND "REJECTED - Minimum balance violation" TO logs
+
             ELSE
-                SET balance = balance - amount
-                SET daily_withdrawn = daily_withdrawn + amount
-                APPEND "Txn " + i + ": ACCEPTED - Withdrawal Rs. " + amount TO logs
+
+                balance = balance - amount
+                daily_withdrawn = daily_withdrawn + amount
+
+                APPEND "ACCEPTED - Withdrawal" TO logs
+
             ENDIF
+
         ELSE
-            APPEND "Txn " + i + ": REJECTED - Unknown type" TO logs
+
+            APPEND "REJECTED - Unknown transaction type" TO logs
+
         ENDIF
+
     ENDFOR
 
     FOR EACH entry IN logs DO
-        PRINT entry
+        DISPLAY entry
     ENDFOR
-    PRINT total_deposited, daily_withdrawn, balance
+
+    DISPLAY total_deposited
+    DISPLAY daily_withdrawn
+    DISPLAY balance
+
 END
 ```
 
-## 7. Python Source Code
-```python
+---
+
+## 7. PYTHON SOURCE CODE
+
+```
 # Case Study 13: ATM Transaction Sequence Simulation
 
 balance = 10000
@@ -119,44 +242,94 @@ total_deposited = 0
 logs = []
 
 print(f"Initial Account Balance: Rs. {balance}")
+
 n = int(input("Enter number of transactions to simulate: "))
 
+while n <= 0:
+    print("Invalid input. Enter at least one transaction.")
+    n = int(input("Re-enter number of transactions: "))
+
 for i in range(1, n + 1):
-    print(f"\nTransaction {i}:")
-    t_type = input("Enter type (D for Deposit, W for Withdrawal): ").strip().upper()
+
+    print(f"\\nTransaction {i}:")
+
+    t_type = input(
+        "Enter type (D for Deposit, W for Withdrawal): "
+    ).strip().upper()
+
     amount = int(input("Enter amount (in multiples of 100): "))
 
+    # Validate transaction amount
     if amount <= 0 or amount % 100 != 0:
-        status = f"Txn {i} [REJECTED]: Rs. {amount} is not a positive multiple of 100."
-        logs.append(status)
-        print(status)
+
+        status = (
+            f"Txn {i} [REJECTED]: Rs. {amount} "
+            "is not a positive multiple of 100."
+        )
+
+    # Deposit transaction
     elif t_type == "D":
+
         balance += amount
         total_deposited += amount
-        status = f"Txn {i} [ACCEPTED]: Deposited Rs. {amount} | Balance: Rs. {balance}"
-        logs.append(status)
-        print(status)
+
+        status = (
+            f"Txn {i} [ACCEPTED]: Deposited Rs. {amount} "
+            f"| Balance: Rs. {balance}"
+        )
+
+    # Withdrawal transaction
     elif t_type == "W":
+
         if amount > single_limit:
-            status = f"Txn {i} [REJECTED]: Rs. {amount} exceeds single limit of Rs. {single_limit}."
+
+            status = (
+                f"Txn {i} [REJECTED]: Rs. {amount} "
+                f"exceeds single limit of Rs. {single_limit}."
+            )
+
         elif daily_withdrawn + amount > daily_limit:
-            status = f"Txn {i} [REJECTED]: Rs. {amount} exceeds daily limit of Rs. {daily_limit}."
+
+            status = (
+                f"Txn {i} [REJECTED]: Rs. {amount} "
+                f"exceeds daily limit of Rs. {daily_limit}."
+            )
+
         elif balance - amount < min_balance:
-            status = f"Txn {i} [REJECTED]: Insufficient balance (Min Rs. {min_balance} required)."
+
+            status = (
+                f"Txn {i} [REJECTED]: Insufficient balance "
+                f"(Min Rs. {min_balance} required)."
+            )
+
         else:
+
             balance -= amount
             daily_withdrawn += amount
-            status = f"Txn {i} [ACCEPTED]: Withdrew Rs. {amount} | Balance: Rs. {balance}"
-        logs.append(status)
-        print(status)
-    else:
-        status = f"Txn {i} [REJECTED]: Invalid transaction type '{t_type}'."
-        logs.append(status)
-        print(status)
 
-print("\n================ ATM TRANSACTION SUMMARY ================")
+            status = (
+                f"Txn {i} [ACCEPTED]: Withdrew Rs. {amount} "
+                f"| Balance: Rs. {balance}"
+            )
+
+    # Invalid transaction type
+    else:
+
+        status = (
+            f"Txn {i} [REJECTED]: "
+            f"Invalid transaction type '{t_type}'."
+        )
+
+    logs.append(status)
+    print(status)
+
+
+# Display final transaction summary
+print("\\n================ ATM TRANSACTION SUMMARY ================")
+
 for entry in logs:
     print(entry)
+
 print("---------------------------------------------------------")
 print(f"Total Deposited : Rs. {total_deposited}")
 print(f"Total Withdrawn : Rs. {daily_withdrawn}")
@@ -164,15 +337,57 @@ print(f"Closing Balance : Rs. {balance}")
 print("=========================================================")
 ```
 
-## 8. Test Cases
-- **Test Case 1 (Valid Deposit):** `D`, `5000` -> Accepted; balance updates from Rs. 10,000 to Rs. 15,000.
-- **Test Case 2 (Invalid Denomination):** `W`, `250` -> Rejected; not a multiple of Rs. 100.
-- **Test Case 3 (Single Limit Violation):** `W`, `12000` -> Rejected; exceeds single withdrawal limit of Rs. 10,000.
-- **Test Case 4 (Valid Withdrawal):** `W`, `8000` -> Accepted; balance updates from Rs. 15,000 to Rs. 7,000.
-- **Test Case 5 (Minimum Balance Violation):** `W`, `6500` -> Rejected; remaining balance Rs. 500 < Rs. 1,000.
+---
 
-## 9. Sample Output
-```text
+## 8. TEST CASES
+
+| Test Case                 | Transaction   | Expected Result |
+| ------------------------- | ------------- | --------------- |
+| Valid Deposit             | D, Rs. 5,000  | Accepted        |
+| Invalid Denomination      | W, Rs. 250    | Rejected        |
+| Single Limit Violation    | W, Rs. 12,000 | Rejected        |
+| Valid Withdrawal          | W, Rs. 8,000  | Accepted        |
+| Minimum Balance Violation | W, Rs. 6,500  | Rejected        |
+
+### Test Case Calculations
+
+**Test Case 1: Valid Deposit**
+
+- Initial Balance = Rs. 10,000
+- Deposit = Rs. 5,000
+- New Balance = **Rs. 15,000**
+
+**Test Case 2: Invalid Denomination**
+
+- Withdrawal = Rs. 250
+- Rs. 250 is not a multiple of Rs. 100.
+- Result = **REJECTED**
+
+**Test Case 3: Single Limit Violation**
+
+- Withdrawal = Rs. 12,000
+- Maximum single withdrawal = Rs. 10,000.
+- Result = **REJECTED**
+
+**Test Case 4: Valid Withdrawal**
+
+- Current Balance = Rs. 15,000
+- Withdrawal = Rs. 8,000
+- New Balance = **Rs. 7,000**
+
+**Test Case 5: Minimum Balance Violation**
+
+- Current Balance = Rs. 7,000
+- Withdrawal = Rs. 6,500
+- Remaining Balance = Rs. 500
+- Minimum Balance = Rs. 1,000
+- Result = **REJECTED**
+
+---
+
+## 9. SAMPLE OUTPUT
+
+```
 Initial Account Balance: Rs. 10000
 Enter number of transactions to simulate: 5
 
@@ -214,5 +429,14 @@ Closing Balance : Rs. 7000
 =========================================================
 ```
 
-## 10. Conclusion
-The ATM simulation accurately validates multi-layered banking constraints using nested conditionals and loops, maintains real-time account state, and preserves a transparent transaction log.
+---
+
+## 10. CONCLUSION
+
+The ATM Transaction Sequence Simulation successfully processes deposits and withdrawals while enforcing multiple banking constraints. It uses loops, conditional statements, and lists to validate transactions, maintain account balance, track accepted and rejected requests, and generate a complete transaction summary.
+
+---
+
+**END OF CASE STUDY 13**
+
+Add rejected transaction trackingFix escaped newline formatting
